@@ -1,3 +1,20 @@
+"""
+╔══════════════════════════════════════════════════════════╗
+║                     tktabssupport.py                     ║
+╚══════════════════════════════════════════════════════════╝
+┌──────────────────────────────────────────────────────────┐
+│                        Author                            │
+├──────┬────────────────────┬───────┬──────────────────────┤
+│ Name │ A S M Saad         │ Email │ asmsaad3@gmail.com   │
+├──────┼────────────────────┼───────┼──────────────────────┤
+│ Date │ June 6, 2023       │ Github│ asmsaad/mintrower    │
+├──────┴────────────────────┴───────┴──────────────────────┤
+│                       Description                        │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+"""
 from tkinter import *
 from icons import *
 from colors import *
@@ -28,7 +45,7 @@ class TabProperty:
 
         self.middle_frame_canvas = Canvas(self.middle_frame,height=middle_height,width=1300-15,bg=Colors__.color()["working space"]["bg"], border=0, borderwidth=0, highlightthickness=0)
         self.middle_frame_canvas.pack()
-        self.middle_frame_canvas.pack_propagate(False)
+        # self.middle_frame_canvas.pack_propagate(False)
         # Scrollable Frame
         self.data_show_frame = Frame(self.middle_frame_canvas,bg=Colors__.color()["working space"]["bg"],padx=0,border=0, borderwidth=0,highlightthickness=0)
         self.middle_frame_canvas.create_window((0, 0), window=self.data_show_frame, anchor="nw")
@@ -49,11 +66,26 @@ class TabProperty:
 
         return self.header_frame ,self.data_show_frame , self.total_control_frame
 
+    def test(self):
+        for i in range(12):
+            display_data = {
+                "ID" : str(i+1),
+                "Website": "",
+                "Size": "",
+                "Keyword": "",
+                "Proxy": "",
+                "Billing Profile": "",
+                "Status": "",
+            }
+            self.individual_data(self.data_show_frame,display_data)
+
     def on_mousewheel(self,e):
-        if len(self.data_show_frame.winfo_children()) > 12 :
-            self.middle_frame_canvas.yview_scroll(int(-1 * (e.delta / 120)), "units")
-        else:
-            self.middle_frame_canvas.yview_moveto(0)
+        self.middle_frame_canvas.yview_scroll(int(-1 * (e.delta / 120)), "units")
+        print("hi")
+        # if len(self.data_show_frame.winfo_children()) > 12 :
+        #     self.middle_frame_canvas.yview_scroll(int(-1 * (e.delta / 120)), "units")
+        # else:
+        #     self.middle_frame_canvas.yview_moveto(0)
 
 
     def tree_view_heading(self,frame,column_data_details):
@@ -84,7 +116,7 @@ class TabProperty:
 
 
 
-        individual_data_frame11 = Frame(base_frame,width=1300-15,height=45,bg=Colors__.color()["task"]["bg"],border=0,borderwidth=0,highlightthickness=0)
+        individual_data_frame11 = Frame(self.data_show_frame,width=1300-15,height=45,bg=Colors__.color()["task"]["bg"],border=0,borderwidth=0,highlightthickness=0)
         individual_data_frame11.pack()
         individual_data_frame11.pack_propagate(False)
 
@@ -153,24 +185,73 @@ class TabProperty:
         }
 
         individual_control_btn = {}
-        for each_control_btn in control_btn_details:
-            if each_control_btn in self.control_btns:
+
+        # control_base_image()
+        if "run" in self.control_btns and "edit" in self.control_btns:
+            Label(individual_control_frame, padx=3,bg=Colors__.color()["task"]["bg"], border=0, borderwidth=0, highlightthickness=0).pack(side=LEFT)
+
+            combo = Canvas(individual_control_frame,bg=Colors__.color()["task"]["bg"],height=40,width=32*3,border=0,borderwidth=0,highlightthickness=0)
+            combo.pack(side=LEFT)
+            combo.pack_propagate()
+            background = control_base_image(type="double")
+            combo.background = background
+            combo.create_image(int((32*3)/2), int(32/2), image=background)
+
+            control_btn_details_type1 = {
+                "run":  {"place":{"x":20,"y":8}},
+                "edit": {"place":{"x":60,"y":8}},
+            }
+
+            for each_control_btn in control_btn_details_type1:
                 individual_control_btn[each_control_btn] = {}
                 individual_control_btn[each_control_btn]["btn_obj"] = TkWidget()
-                individual_control_btn[each_control_btn]["btn"] = individual_control_btn[each_control_btn]["btn_obj"].image_btn(individual_control_frame , imgTk=image__.icons(each_control_btn.lower(),dimension=(24,24)), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover",dimension=(24,24)), dimension= (50,50), bg = Colors__.color()["task"]["bg"], activebackground = Colors__.color()["task"]["bg"])
-                individual_control_btn[each_control_btn]["btn"].pack(side=LEFT)
+                individual_control_btn[each_control_btn]["btn"] = individual_control_btn[each_control_btn]["btn_obj"].image_btn(combo , imgTk=image__.icons(each_control_btn.lower(),dimension=(12,12)), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover",dimension=(12,12)), dimension= (16,16), bg = Colors__.color()["task"]["action bg"], activebackground = Colors__.color()["task"]["bg"])
+                individual_control_btn[each_control_btn]["btn"].place(x=control_btn_details_type1[each_control_btn]["place"]["x"],y=control_btn_details_type1[each_control_btn]["place"]["y"])#pack(side=LEFT)
+
                 if each_control_btn == "delete":
                     individual_control_btn["delete"]["btn"]["command"] = lambda root_frame=root_frame : self.delete_data(root_frame)
                 elif each_control_btn == "run":
                     individual_control_btn["run"]["btn"]["command"] = lambda Tk_btn_=individual_control_btn["run"],stage = "run" : self.run_stop_each_individual(Tk_btn_,stage)
 
+        if "delete" in self.control_btns:
+            Label(individual_control_frame,padx=3,bg=Colors__.color()["task"]["bg"],border=0,borderwidth=0,highlightthickness=0).pack(side=LEFT)
+
+            combo1 = Canvas(individual_control_frame,bg=Colors__.color()["task"]["bg"],height=40,width=32*3,border=0,borderwidth=0,highlightthickness=0)
+            combo1.pack(side=LEFT)
+            combo1.pack_propagate()
+            background1 = control_base_image(type="single")
+            combo1.background1 = background1
+            combo1.create_image(int((32*2)/2), int(32/2), image=background1)
+
+            each_control_btn = "delete"
+            individual_control_btn[each_control_btn] = {}
+            individual_control_btn[each_control_btn]["btn_obj"] = TkWidget()
+            individual_control_btn[each_control_btn]["btn"] = individual_control_btn[each_control_btn]["btn_obj"].image_btn(combo1 , imgTk=image__.icons(each_control_btn.lower(),dimension=(12,12)), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover",dimension=(12,12)), dimension= (16,16), bg = Colors__.color()["task"]["action bg"], activebackground = Colors__.color()["task"]["bg"])
+            individual_control_btn[each_control_btn]["btn"].place(x=15,y=8)
+
+            if each_control_btn == "delete":
+                individual_control_btn["delete"]["btn"]["command"] = lambda root_frame=root_frame : self.delete_data(root_frame)
+
+
+
+        # for each_control_btn in control_btn_details:
+        #     if each_control_btn in self.control_btns:
+        #         individual_control_btn[each_control_btn] = {}
+        #         individual_control_btn[each_control_btn]["btn_obj"] = TkWidget()
+        #         individual_control_btn[each_control_btn]["btn"] = individual_control_btn[each_control_btn]["btn_obj"].image_btn(individual_control_frame , imgTk=image__.icons(each_control_btn.lower(),dimension=(24,24)), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover",dimension=(24,24)), dimension= (50,50), bg = Colors__.color()["task"]["bg"], activebackground = Colors__.color()["task"]["bg"])
+        #         individual_control_btn[each_control_btn]["btn"].pack(side=LEFT)
+        #         if each_control_btn == "delete":
+        #             individual_control_btn["delete"]["btn"]["command"] = lambda root_frame=root_frame : self.delete_data(root_frame)
+        #         elif each_control_btn == "run":
+        #             individual_control_btn["run"]["btn"]["command"] = lambda Tk_btn_=individual_control_btn["run"],stage = "run" : self.run_stop_each_individual(Tk_btn_,stage)
+
     #need to change according to tab
     def run_stop_each_individual(self,Tk_btn_,stage):
         if stage == "run":
-            Tk_btn_["btn_obj"].update_btn_image(imgTk=image__.icons("stop".lower(),dimension=(24,24)), imgTk_hover=image__.icons("stop".lower()+"_hover",dimension=(24,24)))
+            Tk_btn_["btn_obj"].update_btn_image(imgTk=image__.icons("stop".lower(),dimension=(12,12)), imgTk_hover=image__.icons("stop".lower()+"_hover",dimension=(12,12)))
             Tk_btn_["btn"]["command"] = lambda Tk_btn_=Tk_btn_,stage = "stop" : self.run_stop_each_individual(Tk_btn_,stage)
         else:
-            Tk_btn_["btn_obj"].update_btn_image(imgTk=image__.icons("run".lower(),dimension=(24,24)), imgTk_hover=image__.icons("run".lower()+"_hover",dimension=(24,24)))
+            Tk_btn_["btn_obj"].update_btn_image(imgTk=image__.icons("run".lower(),dimension=(12,12)), imgTk_hover=image__.icons("run".lower()+"_hover",dimension=(12,12)))
             Tk_btn_["btn"]["command"] = lambda Tk_btn_=Tk_btn_,stage = "run" : self.run_stop_each_individual(Tk_btn_,stage)
 
 

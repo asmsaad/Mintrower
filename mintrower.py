@@ -1,6 +1,6 @@
 """
 ╔══════════════════════════════════════════════════════════╗
-║                        colors.py                         ║
+║                      mintrower.py                        ║
 ╚══════════════════════════════════════════════════════════╝
 ┌──────────────────────────────────────────────────────────┐
 │                        Author                            │
@@ -11,38 +11,28 @@
 ├──────┴────────────────────┴───────┴──────────────────────┤
 │                       Description                        │
 ├──────────────────────────────────────────────────────────┤
-│                                                          │
-│                                                          │
+│ This script serves as the main  script,  overseeing  the │
+│ execution of all other scripts in a  hierarchical manner │
 └──────────────────────────────────────────────────────────┘
 """
+from icons import *
+from activate import *
 
 
-class Colors__:
+class MainWindow:
     def __init__(self):
-        self.color()
-        pass
+        # Create a window
+        self.root = Tk()
 
-    def color():
-        color_library = {
-            "navigation bar": {"bg": "#1d1d2c",
-                                "fg": {"normal": "#71718c", "hover": "#a9a9b5", "selected": "#ffffff"},
-                                "selected tab": "#171721"
-                                },
-            "working space": {"bg": "#171721",
-                            },
-            "task" : {"bg": "#1a192b",
-                      "fg" : "#717174",
-                      "active fg" : "#b8b8ba",
-                      "separator" : "#5a5a5b",
-                      "action bg" : "#151422",
-                    },
+        ProductActivation(self.root)
+
+        # Window configuration
+        self.root.iconify()
+        self.root.geometry("0x0")
+        self.root.iconphoto(False, image__.icons("logo"))
+        self.root.title("Mintrower")
+        self.root.mainloop()
 
 
-        }
-
-
-        return color_library
-
-
-
-# print(Colors__.color()["navigation bar"]["bg"])
+if __name__ == "__main__":
+    MainWindow()

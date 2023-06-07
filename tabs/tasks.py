@@ -1,3 +1,20 @@
+"""
+╔══════════════════════════════════════════════════════════╗
+║                        tasks.py                          ║
+╚══════════════════════════════════════════════════════════╝
+┌──────────────────────────────────────────────────────────┐
+│                        Author                            │
+├──────┬────────────────────┬───────┬──────────────────────┤
+│ Name │ A S M Saad         │ Email │ asmsaad3@gmail.com   │
+├──────┼────────────────────┼───────┼──────────────────────┤
+│ Date │ June 6, 2023       │ Github│ asmsaad/mintrower    │
+├──────┴────────────────────┴───────┴──────────────────────┤
+│                       Description                        │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+"""
 from tkinter import *
 from tkinter import ttk
 from colors import *
@@ -28,27 +45,31 @@ class TaskTab:
         #Make Heading
         self.tab_property.tree_view_heading(self.header_frame,self.column_data_details)
         #Total Control Area
-        self.total_control_panel(self.total_control_frame)
+        # self.total_control_panel(self.total_control_frame)
 
-        for i in range(12):
-            display_data = {
-                "ID" : str(i+1),
-                "Website": "",
-                "Size": "",
-                "Keyword": "",
-                "Proxy": "",
-                "Billing Profile": "",
-                "Status": "",
-            }
-            self.tab_property.individual_data(self.data_show_frame,display_data)
+        # for i in range(12):
+        #     display_data = {
+        #         "ID" : str(i+1),
+        #         "Website": "",
+        #         "Size": "",
+        #         "Keyword": "",
+        #         "Proxy": "",
+        #         "Billing Profile": "",
+        #         "Status": "",
+        #     }
+        #     self.tab_property.individual_data(self.data_show_frame,display_data)
+
+        self.tab_property.test()
 
 
 
     def total_control_panel(self,frame):
         self.control_btns_details = {
-            "run" : {},
-            "stop": {},
-            "delete":{}
+            "add_new" : {"dimension":(138+10,32+10)},
+            "delete_all": {"dimension": (129 + 10, 32 + 10)},
+            "run_all" : {"dimension":(114+10,32+10)},
+            "stop_all": {"dimension":(114+10,32+10)},
+
         }
 
         self.left_control_frmae = Frame(frame,bg=Colors__.color()["working space"]["bg"],border=0,borderwidth=0,highlightthickness=0)
@@ -56,18 +77,20 @@ class TaskTab:
 
         self.total_control_btns = {}
 
-        each_control_btn = "add_new"
-        self.total_control_btns[each_control_btn] = {}
-        self.total_control_btns[each_control_btn]["btn_obj"] = TkWidget()
-        self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(frame , imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension= (50, 50), bg = Colors__.color()["working space"]["bg"], activebackground = Colors__.color()["working space"]["bg"])
-        self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT,anchor=W)
-        self.total_control_btns[each_control_btn]["btn"]["command"] = lambda : self.add_new_data_task()
-
-
-        for each_control_btn in self.control_btns_details:
+        for each_control_btn in list(self.control_btns_details.keys())[:2]:
             self.total_control_btns[each_control_btn] = {}
             self.total_control_btns[each_control_btn]["btn_obj"] = TkWidget()
-            self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(self.left_control_frmae , imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension= (50, 50), bg = Colors__.color()["working space"]["bg"], activebackground = Colors__.color()["working space"]["bg"])
+            self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(frame , imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension= self.control_btns_details[each_control_btn]["dimension"], bg = Colors__.color()["working space"]["bg"], activebackground = Colors__.color()["working space"]["bg"])
+            self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT,anchor=W)
+
+            if each_control_btn == "add_new" :
+                self.total_control_btns[each_control_btn]["btn"]["command"] = lambda : self.add_new_data_task()
+
+
+        for each_control_btn in list(self.control_btns_details.keys())[2:]:
+            self.total_control_btns[each_control_btn] = {}
+            self.total_control_btns[each_control_btn]["btn_obj"] = TkWidget()
+            self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(self.left_control_frmae , imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension= self.control_btns_details[each_control_btn]["dimension"], bg = Colors__.color()["working space"]["bg"], activebackground = Colors__.color()["working space"]["bg"])
             self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT,anchor=W)
 
 

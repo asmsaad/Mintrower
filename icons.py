@@ -1,24 +1,69 @@
+"""
+╔══════════════════════════════════════════════════════════╗
+║                        icons.py                          ║
+╚══════════════════════════════════════════════════════════╝
+┌──────────────────────────────────────────────────────────┐
+│                        Author                            │
+├──────┬────────────────────┬───────┬──────────────────────┤
+│ Name │ A S M Saad         │ Email │ asmsaad3@gmail.com   │
+├──────┼────────────────────┼───────┼──────────────────────┤
+│ Date │ June 6, 2023       │ Github│ asmsaad/mintrower    │
+├──────┴────────────────────┴───────┴──────────────────────┤
+│                       Description                        │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+"""
+
 from tkinter import *
 from PIL import Image, ImageTk, ImageFont, ImageDraw
 from colors import *
+import datetime
 
 
 
+'''This function make tab button image'''
+def tab_button_icon(icon:object = None, text:str = None, text_bg:str = None, img_width:int = 286, img_original_height:int =18, diff_icon_text:int = 250, place_icon:str = "left", rounded:bool = False,round_bg:str='#242437'):
+    # Determine text image width and height
+    width, height = (len(text)*img_width, 512)
+    # Text position
+    if rounded :
+        position = (0, 150)
+        font = ImageFont.truetype('./res/fonts/OxfordStreet.ttf', size=422 - 90)
+    else:
+        position = (0,110)
+        font = ImageFont.truetype('./res/fonts/OxfordStreet.ttf', size=422)
 
-def tab_button_icon(icon:object = None, text:str = None, text_bg:str = None, img_width:int = 286, img_original_height:int =18, diff_icon_text:int = 250):
 
-    width, height = (len(text)*img_width, 512+140-140)
-    position = (0,110)
-    # Create Text Image
+
+    # Create Text Image with transparent background
     text_image = Image.new("RGBA", (width, height), 0)
-    font = ImageFont.truetype('./res/fonts/OxfordStreet.ttf', size=512+190-190-90)
+
     draw = ImageDraw.Draw(text_image)
     draw.text(position, text, font=font, fill=text_bg)
-    # Marge Text Image with Icon
+    # text_image.show()
+
+    # Text Image with Icon with transparent background
     total_width = width + 512 + diff_icon_text
     merged_image = Image.new("RGBA", (total_width, height), 0)
-    merged_image.paste(icon, (0, 0))
-    merged_image.paste(text_image, (512+diff_icon_text, 0))
+    if place_icon.lower() == 'left':
+        merged_image.paste(icon, (0, int((512-icon.size[1])/2)))
+        merged_image.paste(text_image, (512+diff_icon_text, 0))
+    else:
+        merged_image.paste(text_image, (0, 0))
+        merged_image.paste(icon, (total_width - icon.size[0], int((512-icon.size[1])/2)))
+
+    # Rounded Shape
+    if rounded == True:
+        round_shape_img = Image.new("RGBA", (total_width+300, height+150), 0)
+        round_rect = ImageDraw.Draw(round_shape_img)
+        round_rect.rounded_rectangle((0,0,total_width+300, height+150),radius=120,fill=round_bg)
+        round_shape_img.paste(merged_image,(150,80),merged_image)
+        merged_image = round_shape_img
+        final_image = merged_image.resize((int((total_width/height)*img_original_height),img_original_height),Image.LANCZOS)
+        print(text,final_image.size)
+        return final_image
 
     final_image = merged_image.resize((int((total_width/height)*img_original_height),img_original_height),Image.LANCZOS)
     # final_image.show()
@@ -26,6 +71,71 @@ def tab_button_icon(icon:object = None, text:str = None, text_bg:str = None, img
     return ImageTk.PhotoImage(final_image)
 
 
+
+def control_base_image(type:str="double"):
+    _custom_height =28
+    new_img = Image.new("RGBA",(512*3,512),0)
+    draw = ImageDraw.Draw(new_img)
+
+    if type=="double":
+        width_ , height_ = (512*3,512)
+        radius = 100
+    else:
+        width_, height_ = (512 * 2, 512)
+        radius = 130
+
+    border= 12
+    draw.rounded_rectangle((0,0,width_,height_),fill=Colors__.color()["task"]["separator"],radius=radius)
+    draw.rounded_rectangle((border,border,width_-border,height_-border),fill=Colors__.color()["task"]["action bg"],radius=radius-10)
+    if type == "double":
+        draw.rounded_rectangle((int(width_/2)-int((border-10)/2),int((height_/3)/2), int(width_/2)+int((border-10)/2), height_-int((height_/3)/2) ), fill=Colors__.color()["task"]["separator"], radius=150)
+
+    mod_img  =  new_img.resize( (int(width_/height_)*_custom_height,_custom_height) , Image.LANCZOS)
+    # mod_img.show()
+
+    return ImageTk.PhotoImage(mod_img)
+
+
+def activation_btn_img(bg="normal"):
+    if bg=="normal":
+        fill_color = "#37de8f"
+    else:
+        fill_color = "#5fe5a5"
+    _custom_height = 32
+    radius = 100
+    width_, height_ = (int(512 * 15), int(512*1.2))
+    new_img = Image.new("RGBA", (width_, height_), 0)
+    draw = ImageDraw.Draw(new_img)
+    draw.rounded_rectangle((0, 0, width_, height_), fill=fill_color, radius=radius)
+    font = ImageFont.truetype('./res/fonts/OxfordStreet.ttf', size=422)
+    position = (int(width_/2)-512-150, 210-50)
+    draw.text(position, "Activate", font=font, fill="white")
+
+    mod_img = new_img.resize((int(width_ / height_) * _custom_height, _custom_height), Image.LANCZOS)
+
+    # print(mod_img.size)
+    # mod_img.show()
+
+    return mod_img
+
+
+
+# activation_btn_img()
+# tab_button_icon(icon = Image.open("./res/icons/control/plus.png").resize((300,300),Image.LANCZOS), text = "CREATE TASK", text_bg  = "#cecfc6", img_width  = 200, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437')
+# tab_button_icon(icon = Image.open("./res/icons/control/plus.png").resize((300,300),Image.LANCZOS), text = "CREATE TASK", text_bg  = "#e5e6dc", img_width  = 200, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437')
+#
+# tab_button_icon(icon = Image.open("./res/icons/control/_delete.png").resize((320,320),Image.LANCZOS), text =   "DELETE  ALL", text_bg  = "#cecfc6", img_width  = 200-13, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437')
+# tab_button_icon(icon = Image.open("./res/icons/control/_delete.png").resize((320,320),Image.LANCZOS), text =   "DELETE  ALL", text_bg  = "#e5e6dc", img_width  = 200-13, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437')
+
+# tab_button_icon(icon = Image.open("./res/icons/control/play.png").resize((300,300),Image.LANCZOS), text =   "START ALL", text_bg  = "#ffffff", img_width  = 200-13, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#37cd8f')
+# tab_button_icon(icon = Image.open("./res/icons/control/play.png").resize((300,300),Image.LANCZOS), text =   "START ALL", text_bg  = "#e6e6e6", img_width  = 200-13, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#37cd8f')
+#
+# tab_button_icon(icon = Image.open("./res/icons/control/_stop.png").resize((300,350),Image.LANCZOS), text =   " STOP ALL", text_bg  = "#ffffff", img_width  = 200-13, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#f54e64')
+# tab_button_icon(icon = Image.open("./res/icons/control/_stop.png").resize((300,350),Image.LANCZOS), text =   " STOP ALL", text_bg  = "#e6e6e6", img_width  = 200-13, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#f54e64')
+
+
+
+'''This Class return images into Tk formate. By the use of dimension argument user can chage the image diameter'''
 class image__:
     def __init__(self) -> None:
         pass
@@ -71,11 +181,22 @@ class image__:
 
 
         # Control
-        elif name == "add_new": return ImageTk.PhotoImage(Image.open("./res/icons/control/add_new.png").resize((dimension if len(dimension) == 2 else (32, 32)), Image.LANCZOS))
-        elif name == "add_new_hover": return ImageTk.PhotoImage(Image.open("./res/icons/control/add_new_hover.png").resize((dimension if len(dimension) == 2 else (32, 32)), Image.LANCZOS))
+        elif name == "add_new": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/plus.png").resize((250,250),Image.LANCZOS), text = "CREATE TASK", text_bg  = "#cecfc6", img_width  = 200-45, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437').resize((dimension if len(dimension) == 2 else (138, 32)), Image.LANCZOS))
+        elif name == "add_new_hover": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/plus.png").resize((250,250),Image.LANCZOS), text = "CREATE TASK", text_bg  = "#e5e6dc", img_width  = 200-45, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437').resize((dimension if len(dimension) == 2 else (138, 32)), Image.LANCZOS))
+
+        elif name == "delete_all": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/delete.png").resize((270,270),Image.LANCZOS), text =   "DELETE  ALL", text_bg  = "#cecfc6", img_width  = 200-13-45, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437').resize((dimension if len(dimension) == 2 else (129, 32)), Image.LANCZOS))
+        elif name == "delete_all_hover": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/delete.png").resize((270,270),Image.LANCZOS), text =   "DELETE  ALL", text_bg  = "#e5e6dc", img_width  = 200-13-45, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#242437').resize((dimension if len(dimension) == 2 else (129, 32)), Image.LANCZOS))
+
+        elif name == "run_all": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/play.png").resize((250,250),Image.LANCZOS), text =   "START ALL", text_bg  = "#ffffff", img_width  = 200-13-38, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#37cd8f').resize((dimension if len(dimension) == 2 else (114, 32)), Image.LANCZOS))
+        elif name == "run_all_hover": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/play.png").resize((250,250),Image.LANCZOS), text =   "START ALL", text_bg  = "#e6e6e6", img_width  = 200-13-38, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#37cd8f').resize((dimension if len(dimension) == 2 else (114, 32)), Image.LANCZOS))
+
+        elif name == "stop_all": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/_stop.png").resize((280,300),Image.LANCZOS), text =   " STOP  ALL", text_bg  = "#ffffff", img_width  = 200-13-38, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#f54e64').resize((dimension if len(dimension) == 2 else (114, 32)), Image.LANCZOS))
+        elif name == "stop_all_hover": return ImageTk.PhotoImage(tab_button_icon(icon = Image.open("./res/icons/control/_stop.png").resize((280,300),Image.LANCZOS), text =   " STOP  ALL", text_bg  = "#e6e6e6", img_width  = 200-13-38, img_original_height  =32, diff_icon_text  = 0, place_icon = "right",rounded=True,round_bg='#f54e64').resize((dimension if len(dimension) == 2 else (114, 32)), Image.LANCZOS))
 
         elif name == "delete": return ImageTk.PhotoImage(Image.open("./res/icons/control/delete.png").resize((dimension if len(dimension) == 2 else (32, 32)), Image.LANCZOS))
         elif name == "delete_hover": return ImageTk.PhotoImage(Image.open("./res/icons/control/delete_hover.png").resize((dimension if len(dimension) == 2 else (32, 32)), Image.LANCZOS))
+
+
 
         elif name == "paush": return ImageTk.PhotoImage(Image.open("./res/icons/control/paush.png").resize((dimension if len(dimension) == 2 else (32, 32)), Image.LANCZOS))
         elif name == "paush_hover": return ImageTk.PhotoImage(Image.open("./res/icons/control/paush_hover.png").resize((dimension if len(dimension) == 2 else (32, 32)), Image.LANCZOS))
@@ -103,8 +224,8 @@ class image__:
         elif name == "save_hover": return ImageTk.PhotoImage(Image.open("./res/icons/save_hover.png").resize((dimension if len(dimension) == 2 else (107, 35)), Image.LANCZOS))
 
         ## Save
-        elif name == "activate": return ImageTk.PhotoImage(Image.open("./res/icons/activate.png").resize((dimension if len(dimension) == 2 else (116, 40)), Image.LANCZOS))
-        elif name == "activate_hover": return ImageTk.PhotoImage(Image.open("./res/icons/activate_hover.png").resize((dimension if len(dimension) == 2 else (116, 40)), Image.LANCZOS))
+        elif name == "activate": return ImageTk.PhotoImage(activation_btn_img(bg="normal").resize((dimension if len(dimension) == 2 else (384, 32)), Image.LANCZOS))
+        elif name == "activate_hover": return ImageTk.PhotoImage(activation_btn_img(bg="hover").resize((dimension if len(dimension) == 2 else (384, 32)), Image.LANCZOS))
 
 
 

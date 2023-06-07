@@ -1,3 +1,20 @@
+"""
+╔══════════════════════════════════════════════════════════╗
+║                      addnewtask.py                       ║
+╚══════════════════════════════════════════════════════════╝
+┌──────────────────────────────────────────────────────────┐
+│                        Author                            │
+├──────┬────────────────────┬───────┬──────────────────────┤
+│ Name │ A S M Saad         │ Email │ asmsaad3@gmail.com   │
+├──────┼────────────────────┼───────┼──────────────────────┤
+│ Date │ June 6, 2023       │ Github│ asmsaad/mintrower    │
+├──────┴────────────────────┴───────┴──────────────────────┤
+│                       Description                        │
+├──────────────────────────────────────────────────────────┤
+│                                                          │
+│                                                          │
+└──────────────────────────────────────────────────────────┘
+"""
 
 from tkinter import *
 from tkinter import ttk
@@ -35,7 +52,7 @@ class AddNewTask:
             "Website": {"type": "ComboBox", "values": []},
             "Billing Profile": {"type": "ComboBox", "values": []},
             "Proxy": {"type": "ComboBox", "values": []},
-            "Catagory": {"type": "ComboBox", "values": ["Started", "Created Browser", "At Homepage", "At View All", "At Category Page", "At Product Page", "Selected Size", "Added to Cart", "Checked Out"]},
+            "Category": {"type": "ComboBox", "values": ["Started", "Created Browser", "At Homepage", "At View All", "At Category Page", "At Product Page", "Selected Size", "Added to Cart", "Checked Out"]},
             "Size": {"type": "ComboBox", "values": []},
             "Color/Style": {"type": "Entry", "values": []},
             "Method": {"type": "ComboBox", "values": []},
@@ -79,7 +96,7 @@ class AddNewTask:
 
             if self.entry_widget_info[each_info]["type"] == "ComboBox":
 
-                self.add_new_data_widget[each_info]["insert_data"] = ttk.Combobox(self.add_new_data_widget[each_info]["frame"],state="normaltasks.py", width=17,font=("Arial", "12", "normal"),style="TCombobox")
+                self.add_new_data_widget[each_info]["insert_data"] = ttk.Combobox(self.add_new_data_widget[each_info]["frame"],state="normal", width=17,font=("Arial", "12", "normal"),style="TCombobox")
                 self.add_new_data_widget[each_info]["insert_data"].pack(side=RIGHT,anchor=E,ipady=4)
                 self.add_new_data_widget[each_info]["insert_data"]["value"] = self.entry_widget_info[each_info]["values"]
 
