@@ -18,7 +18,7 @@
 │ triggers the mandatory execution of "main.py".           │
 └──────────────────────────────────────────────────────────┘
 """
-from main import *
+from mainwindow import *
 
 
 class ProductActivation:
