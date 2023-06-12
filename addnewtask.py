@@ -21,9 +21,11 @@ from tkinter import ttk
 from window import *
 from navigationbar import  *
 from tksupport import *
+from tabs.actions import *
 
 class AddNewTask:
-    def __init__(self,root_window,data_show_frame,tab_property):
+    def __init__(self,root_window,data_show_frame,tab_property,new_task_id:str=''):
+        self.new_task_id = new_task_id
         self.data_show_frame = data_show_frame
         self.tab_property = tab_property
 
@@ -56,7 +58,7 @@ class AddNewTask:
             "Size": {"type": "ComboBox", "values": []},
             "Color/Style": {"type": "Entry", "values": []},
             "Method": {"type": "ComboBox", "values": []},
-            "Keywords": {"type": "Entry", "values": []},
+            "Keyword": {"type": "Entry", "values": []},
             "Navigation Keyword": {"type": "Entry", "values": []},
             "Checkout Delay": {"type": "Entry", "values": []},
             "Monitor Delay": {"type": "Entry", "values": []},
@@ -115,8 +117,16 @@ class AddNewTask:
 
 
     def save_btn_action(self):
+        '''
+        Within this function, It will be adding  data  to  the  task
+        table and positioning it at the bottom of the task  tab. The
+        display_data dictionary contains the  information  that will
+        be displayed in the task table, and  it  must align with the
+        keys present in self.entry_widget_info.
+        '''
+
         display_data = {
-            "ID": str(111),
+            "ID": self.new_task_id,
             "Website": "",
             "Size": "",
             "Keyword": "",
@@ -124,7 +134,17 @@ class AddNewTask:
             "Billing Profile": "",
             "Status": "",
         }
+
+        for each_widget_data in list(display_data.keys())[1:-1]:
+            display_data[each_widget_data] = str(self.add_new_data_widget[each_widget_data]["insert_data"].get()).strip()
+
+        # Set Initial Status
+        display_data["Status"] = "New"
         self.tab_property.individual_data(self.data_show_frame, display_data)
+
+        # New task adding to DB
+        task_tab_action_add_new_data_to_DB(display_data)
+
 
         self.window.destroy()
 

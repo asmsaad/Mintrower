@@ -22,6 +22,7 @@ from icons import *
 from tksupport import *
 from addnewtask import *
 from tabs.tktabsupport import *
+from tabs.actions import *
 
 class TaskTab:
     def __init__(self, base_canvas):
@@ -91,9 +92,9 @@ class TaskTab:
             self.total_control_btns[each_control_btn]["btn_obj"] = TkWidget()
             self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(self.left_control_frmae, imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension=self.control_btns_details[each_control_btn]["dimension"], bg=Colors__.color()["working space"]["bg"], activebackground=Colors__.color()["working space"]["bg"])
             self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT, anchor=W)
-            # Add New Task Button Call
-            if each_control_btn == "add_new":
-                self.total_control_btns[each_control_btn]["btn"]["command"] = lambda: self.add_new_data_task()
+        # Add New Task Button Call
+        self.total_control_btns["add_new"]["btn"]["command"] = lambda root_=self.base_canvas.winfo_toplevel(), task_tab_frame=self.data_show_frame, details=self.tab_property: task_tab_action_add_new_task(root_,task_tab_frame,details)
+
 
         # Left Control Button's Frame
         for each_control_btn in list(self.control_btns_details.keys())[2:]:
@@ -103,8 +104,7 @@ class TaskTab:
             self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT, anchor=W)
 
 
-    def add_new_data_task(self):
-        AddNewTask(self.base_canvas.winfo_toplevel(), self.data_show_frame, self.tab_property)
+
 
 
 
