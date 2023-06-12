@@ -34,19 +34,23 @@ class BillingTab:
             "Name On Card": {"width": 120+130, "text_align": LEFT, "anchor": W},
             "Email": {"width": 180+56, "text_align": LEFT, "anchor": W},
             "Shipping Address": {"width": 150+150, "text_align": CENTER, "anchor": W},
-            # "Billing Profile": {"width": 150, "text_align": LEFT, "anchor": W},
-            # "Status": {"width": 130, "text_align": CENTER, "anchor": W},
-            "Actions": {"width": 112, "text_align": LEFT, "anchor": W}, #56
+            "Actions": {"width": 112, "text_align": LEFT, "anchor": W},
         }
 
         self.tab_property = TabProperty(self.base_canvas)
-        self.tab_property.set_individual_data_control( controls=("edit","delete"))
-        self.header_frame ,self.data_show_frame , self.total_control_frame = self.tab_property.space_configure(header_height=70,middle_height=540,bottom_height=58)
+        self.tab_property.set_individual_data_control(controls=("edit", "delete"), tab_name="billing")
+        self.header_frame, self.data_show_frame, self.total_control_frame = self.tab_property.create_frames(header_height=70, middle_height=540+45, bottom_height=0)
         #Make Heading
-        self.tab_property.tree_view_heading(self.header_frame,self.column_data_details)
+        self.tab_property.tree_view_heading(self.header_frame, self.column_data_details)
 
-
-        for i in range(12):
+        ''''
+        In this section,  retrieve  the data from the  database that
+        was previously imported. The initial  imported  data will be 
+        displayed at the top  of  the frame. Ensure that the data is 
+        provided,  as  the  display_data  dictionary   keys  remains 
+        unchanged. 
+        '''
+        for i in range(25):
             display_data = {
                 "Selector": "",
                 "ID": str(i),
@@ -54,9 +58,10 @@ class BillingTab:
                 "Name On Card": "",
                 "Email": "",
                 "Shipping Address": "",
-                "Actions": "", #56
+                "Actions": "",
             }
-            self.tab_property.individual_data(self.data_show_frame,display_data)
+            # Function that import data
+            self.tab_property.individual_data(self.data_show_frame, display_data)
 
 
 

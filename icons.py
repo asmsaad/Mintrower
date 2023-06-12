@@ -62,7 +62,7 @@ def tab_button_icon(icon:object = None, text:str = None, text_bg:str = None, img
         round_shape_img.paste(merged_image,(150,80),merged_image)
         merged_image = round_shape_img
         final_image = merged_image.resize((int((total_width/height)*img_original_height),img_original_height),Image.LANCZOS)
-        print(text,final_image.size)
+        # print(text,final_image.size)
         return final_image
 
     final_image = merged_image.resize((int((total_width/height)*img_original_height),img_original_height),Image.LANCZOS)

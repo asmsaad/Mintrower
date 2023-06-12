@@ -118,7 +118,7 @@ class ProductActivation:
             otherwise, it will be set to False.
             """
             # Default value
-            product_already_activate = False
+            product_already_activate = True
             self.check_valid_user(product_already_activate=product_already_activate)
 
         elif force_from == "activation_key":

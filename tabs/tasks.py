@@ -40,62 +40,71 @@ class TaskTab:
         }
 
         self.tab_property = TabProperty(self.base_canvas)
-        self.tab_property.set_individual_data_control( controls=("run","edit","delete"))
-        self.header_frame ,self.data_show_frame , self.total_control_frame = self.tab_property.space_configure(header_height=70,middle_height=540,bottom_height=58)
+        self.tab_property.set_individual_data_control(controls=("run", "edit", "delete"), tab_name="task")
+        self.header_frame ,self.data_show_frame , self.total_control_frame = self.tab_property.create_frames(header_height=70,middle_height=540,bottom_height=58)
         #Make Heading
         self.tab_property.tree_view_heading(self.header_frame,self.column_data_details)
         #Total Control Area
-        # self.total_control_panel(self.total_control_frame)
+        self.total_control_panel(self.total_control_frame)
 
-        # for i in range(12):
-        #     display_data = {
-        #         "ID" : str(i+1),
-        #         "Website": "",
-        #         "Size": "",
-        #         "Keyword": "",
-        #         "Proxy": "",
-        #         "Billing Profile": "",
-        #         "Status": "",
-        #     }
-        #     self.tab_property.individual_data(self.data_show_frame,display_data)
+        ''''
+        In this section,  retrieve  the data from the  database that
+        was previously imported. The initial  imported  data will be 
+        displayed at the top  of  the frame. Ensure that the data is 
+        provided,  as  the  display_data  dictionary   keys  remains 
+        unchanged. 
+        '''
+        for i in range(25):
+            display_data = {
+                "ID": str(i+1),
+                "Website": "",
+                "Size": "",
+                "Keyword": "",
+                "Proxy": "",
+                "Billing Profile": "",
+                "Status": "",
+            }
+            self.tab_property.individual_data(self.data_show_frame,display_data)
 
-        self.tab_property.test()
+
 
 
 
     def total_control_panel(self,frame):
+        # Total Control button
         self.control_btns_details = {
-            "add_new" : {"dimension":(138+10,32+10)},
+            "add_new": {"dimension": (138 + 10, 32+10)},
             "delete_all": {"dimension": (129 + 10, 32 + 10)},
-            "run_all" : {"dimension":(114+10,32+10)},
-            "stop_all": {"dimension":(114+10,32+10)},
-
+            "run_all": {"dimension": (114+10, 32+10)},
+            "stop_all": {"dimension": (114+10, 32+10)},
         }
 
-        self.left_control_frmae = Frame(frame,bg=Colors__.color()["working space"]["bg"],border=0,borderwidth=0,highlightthickness=0)
-        self.left_control_frmae.pack(side=RIGHT,anchor=E)
+        self.left_control_frmae = Frame(frame, bg=Colors__.color()["working space"]["bg"], border=0, borderwidth=0, highlightthickness=0)
+        self.left_control_frmae.pack(side=LEFT, anchor=W)
+
+        self.right_control_frmae = Frame(frame, bg=Colors__.color()["working space"]["bg"], border=0, borderwidth=0, highlightthickness=0)
+        self.right_control_frmae.pack(side=RIGHT, anchor=E)
 
         self.total_control_btns = {}
-
         for each_control_btn in list(self.control_btns_details.keys())[:2]:
             self.total_control_btns[each_control_btn] = {}
             self.total_control_btns[each_control_btn]["btn_obj"] = TkWidget()
-            self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(frame , imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension= self.control_btns_details[each_control_btn]["dimension"], bg = Colors__.color()["working space"]["bg"], activebackground = Colors__.color()["working space"]["bg"])
-            self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT,anchor=W)
+            self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(self.left_control_frmae, imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension=self.control_btns_details[each_control_btn]["dimension"], bg=Colors__.color()["working space"]["bg"], activebackground=Colors__.color()["working space"]["bg"])
+            self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT, anchor=W)
+            # Add New Task Button Call
+            if each_control_btn == "add_new":
+                self.total_control_btns[each_control_btn]["btn"]["command"] = lambda: self.add_new_data_task()
 
-            if each_control_btn == "add_new" :
-                self.total_control_btns[each_control_btn]["btn"]["command"] = lambda : self.add_new_data_task()
-
-
+        # Left Control Button's Frame
         for each_control_btn in list(self.control_btns_details.keys())[2:]:
             self.total_control_btns[each_control_btn] = {}
             self.total_control_btns[each_control_btn]["btn_obj"] = TkWidget()
-            self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(self.left_control_frmae , imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension= self.control_btns_details[each_control_btn]["dimension"], bg = Colors__.color()["working space"]["bg"], activebackground = Colors__.color()["working space"]["bg"])
-            self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT,anchor=W)
+            self.total_control_btns[each_control_btn]["btn"] = self.total_control_btns[each_control_btn]["btn_obj"].image_btn(self.right_control_frmae, imgTk=image__.icons(each_control_btn.lower()), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover"), dimension=self.control_btns_details[each_control_btn]["dimension"], bg=Colors__.color()["working space"]["bg"], activebackground=Colors__.color()["working space"]["bg"])
+            self.total_control_btns[each_control_btn]["btn"].pack(side=LEFT, anchor=W)
 
 
     def add_new_data_task(self):
-        AddNewTask(self.base_canvas.winfo_toplevel(),self.data_show_frame,self.tab_property)
+        AddNewTask(self.base_canvas.winfo_toplevel(), self.data_show_frame, self.tab_property)
 
 
 
