@@ -20,7 +20,7 @@ from tkinter import ttk
 from colors import *
 from icons import *
 from tksupport import *
-from addnewtask import *
+# from addnewtask import *
 from tabs.tktabsupport import *
 from tabs.actions import *
 

@@ -21,8 +21,8 @@ from tkinter import ttk
 from window import *
 from navigationbar import  *
 from tksupport import *
-from tabs.actions import *
-
+# from tabs.actions import task_tab_action_add_new_data_to_DB
+#
 class AddNewTask:
     def __init__(self,root_window,data_show_frame,tab_property,new_task_id:str=''):
         self.new_task_id = new_task_id
@@ -143,7 +143,7 @@ class AddNewTask:
         self.tab_property.individual_data(self.data_show_frame, display_data)
 
         # New task adding to DB
-        task_tab_action_add_new_data_to_DB(display_data)
+        # task_tab_action_add_new_data_to_DB(display_data)
 
 
         self.window.destroy()

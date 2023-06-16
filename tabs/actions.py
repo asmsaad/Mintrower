@@ -1,4 +1,5 @@
-from addnewtask import *
+# from addnewtask import *
+from addnewtask import AddNewTask
 
 
 
@@ -47,7 +48,7 @@ def task_tab_action_delete(task_data: dict):
     print(f"Task Tab , Task ID {task_data['ID']} Deleted")
 
 def task_tab_action_add_new_task(root_window,data_show_frame,tab_property):
-
+    # Need to provide task_id by default 101
     AddNewTask(root_window,data_show_frame,tab_property,new_task_id='101')
 
 

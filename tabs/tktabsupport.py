@@ -181,19 +181,17 @@ class TabProperty:
             # Button Press Action
             individual_control_btn["run"]["btn"]["command"] = lambda Tk_btn_=individual_control_btn["run"],stage = "run", display_data= display_data : self.run_stop_each_individual(Tk_btn_,stage, display_data)
         elif self.current_tab_name == "billing":
-            each_control_btn = "edit"
-            individual_control_btn[each_control_btn] = {}
-            individual_control_btn[each_control_btn]["btn_obj"] = TkWidget()
-            individual_control_btn[each_control_btn]["btn"] = individual_control_btn[each_control_btn]["btn_obj"].image_btn(self.action_btn_bg["left"] , imgTk=image__.icons(each_control_btn.lower(),dimension=(12,12)), imgTk_hover=image__.icons(each_control_btn.lower()+"_hover",dimension=(12,12)), dimension= (16,16), bg = Colors__.color()["task"]["action bg"], activebackground = Colors__.color()["task"]["action bg"])
-            individual_control_btn[each_control_btn]["btn"].place(x=15,y=8)
-
+            individual_control_btn["edit"] = {}
+            individual_control_btn["edit"]["btn_obj"] = TkWidget()
+            individual_control_btn["edit"]["btn"] = individual_control_btn["edit"]["btn_obj"].image_btn(self.action_btn_bg["left"] , imgTk=image__.icons("edit".lower(),dimension=(12,12)), imgTk_hover=image__.icons("edit".lower()+"_hover",dimension=(12,12)), dimension= (16,16), bg = Colors__.color()["task"]["action bg"], activebackground = Colors__.color()["task"]["action bg"])
+            individual_control_btn["edit"]["btn"].place(x=15,y=8)
         # Edit Button Press Action
         individual_control_btn["edit"]["btn"]["command"] = lambda display_data = display_data, column_data=column_data : self.edit_data(display_data,column_data)
 
         # Delete Button
         individual_control_btn["delete"] = {}
         individual_control_btn["delete"]["btn_obj"] = TkWidget()
-        individual_control_btn["delete"]["btn"] = individual_control_btn[each_control_btn]["btn_obj"].image_btn(self.action_btn_bg["right"] , imgTk=image__.icons("delete".lower(),dimension=(12,12)), imgTk_hover=image__.icons("delete".lower()+"_hover",dimension=(12,12)), dimension= (16,16), bg = Colors__.color()["task"]["action bg"], activebackground = Colors__.color()["task"]["action bg"])
+        individual_control_btn["delete"]["btn"] = individual_control_btn["delete"]["btn_obj"].image_btn(self.action_btn_bg["right"] , imgTk=image__.icons("delete".lower(),dimension=(12,12)), imgTk_hover=image__.icons("delete".lower()+"_hover",dimension=(12,12)), dimension= (16,16), bg = Colors__.color()["task"]["action bg"], activebackground = Colors__.color()["task"]["action bg"])
         individual_control_btn["delete"]["btn"].place(x=15,y=8)
         # Command
         individual_control_btn["delete"]["btn"]["command"] = lambda root_frame=root_frame, display_data = display_data : self.delete_data(root_frame, display_data)

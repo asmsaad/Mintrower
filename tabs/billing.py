@@ -39,7 +39,7 @@ class BillingTab:
 
         self.tab_property = TabProperty(self.base_canvas)
         self.tab_property.set_individual_data_control(controls=("edit", "delete"), tab_name="billing")
-        self.header_frame, self.data_show_frame, self.total_control_frame = self.tab_property.create_frames(header_height=70, middle_height=540+45, bottom_height=0)
+        self.header_frame, self.data_show_frame, self.total_control_frame = self.tab_property.create_frames(header_height=70, middle_height=540, bottom_height=0)
         #Make Heading
         self.tab_property.tree_view_heading(self.header_frame, self.column_data_details)
 
